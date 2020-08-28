@@ -1,26 +1,6 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
-
-import pandas as pd
-import numpy as np
-
-import json
-import requests
-import urllib.parse
-
-import spotipy
-import spotipy.util as util
-from spotipy.oauth2 import SpotifyClientCredentials
-
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-import datetime
-
-from bokeh.models.widgets import Div
-
 import awesome_streamlit as ast
+
 import pages.dashboard
 import pages.spotify
 import pages.arxiv
@@ -28,7 +8,7 @@ import pages.medium
 import pages.youtube
 import pages.about
 
-ast.core.services.other.set_logging_format()
+#ast.core.services.other.set_logging_format()
 
 PAGES = {
     "Dashboard": pages.dashboard,
