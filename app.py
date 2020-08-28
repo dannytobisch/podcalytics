@@ -8,7 +8,7 @@ import pages.medium
 import pages.youtube
 import pages.about
 
-ast.core.services.other.set_logging_format()
+#ast.core.services.other.set_logging_format()
 
 PAGES = {
     "Dashboard": pages.dashboard,
