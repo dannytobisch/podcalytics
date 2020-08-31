@@ -25,12 +25,6 @@ def main():
     st.sidebar.title("Navigation")
     selection = st.sidebar.radio("Go to", list(PAGES.keys()))
 
-    page = PAGES[selection]
-
-    with st.spinner(f"Loading {selection} ..."):
-        ast.shared.components.write_page(page)
-
-
     st.sidebar.markdown('Your desired parametes:')
 
     category_selectbox = st.sidebar.selectbox(
@@ -49,6 +43,10 @@ def main():
     2001, 2020, (2016, 2020)
 )
 
+    page = PAGES[selection]
+
+    with st.spinner(f"Loading {selection} ..."):
+        ast.shared.components.write_page(page)
 
 if __name__ == "__main__":
     main()

@@ -11,7 +11,7 @@ from gensim.models import Word2Vec
 
 model_w2v = Word2Vec.load("model/model_w2v.model")
 
-def recommendation_system(user_input, n_cluster):
+def recommendation_system(user_input, n_cluster, data_preprocessed):
     # category = 'data science'
     # lang_input = 'en'
 
@@ -26,7 +26,6 @@ def recommendation_system(user_input, n_cluster):
     # data_preprocessed = preprocessed_data(data, column=column_to_preprocess)
 
     # change type of preprocessed column to use for tf-idf, keep other column to use for word2vec
-    data_preprocessed = pd.read_csv('data/data_preprocessed.csv')
     data_preprocessed['complete_processed_str'] = data_preprocessed['complete_processed'].astype('str') # generalize how the column is called
     data_vectorized = vectorization(data_preprocessed, 'complete_processed_str')
 
@@ -91,6 +90,7 @@ def get_key(val, dict_topics):
     return "key doesn't exist"
 
 def recommended_topic(user_input, list_of_topics, dict_topics, model):
+
     distances = {}
     for word in list_of_topics:
         new_word = []
@@ -98,7 +98,7 @@ def recommended_topic(user_input, list_of_topics, dict_topics, model):
             if value in list(model_w2v.wv.vocab):
                 new_word.append(value)
             else: new_word = ['data']
-        distances[get_key(word, dict_topics)] = model_w2v.wv.n_similarity(new_word, [user_input])
+        distances[get_key(word, dict_topics)] = model_w2v.wv.n_similarity(new_word, user_input.lower().split())
     top_3 = sorted(distances, key=distances.get, reverse=True)[:3]
     max_key = max(distances, key=distances.get)
     return max_key, top_3
