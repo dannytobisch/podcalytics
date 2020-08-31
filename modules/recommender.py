@@ -1,19 +1,23 @@
 '''Use of the recommendation system'''
 
-from get_data import get_data_spotify
-from preprocessing import preprocessing, preprocessed_data
-from trainer import vectorization, kmeans, cluster_function, model
+from modules.get_data import get_data_spotify
+from modules.preprocessing import preprocessing, preprocessed_data
+from modules.trainer import vectorization, kmeans, cluster_function, model
 import pandas as pd
 import gensim
 from gensim.models import phrases, word2vec
+from gensim.models import Word2Vec
+import nltk
 
-def recommendation_system(user_input):
+model_w2v = Word2Vec.load("model/model_w2v.model")
+
+def recommendation_system(user_input, n_cluster):
     # category = 'data science'
     # lang_input = 'en'
 
     # column_to_preprocess = 'title_and_description'
 
-    # number_of_clusters = 50
+    number_of_clusters = n_cluster
 
     # # get the data from spotify
     # data = get_data_spotify(user_input=category, lang_input=lang_input)
@@ -58,17 +62,15 @@ def recommendation_system(user_input):
             temp_list.append(word.replace(" ", "_"))
 
     new_topics_list = pd.Series(new_topics_list)
-    #Corp_pre = data_preprocessed.complete_processed.append(new_topics_list)
-
+    '''#Corp_pre = data_preprocessed.complete_processed.append(new_topics_list)
     # create corpus for word2vec
     #corpus = Corp_pre.values
-
     # automatically find word connections (bigrams in corpus)
     #bigrams = phrases.Phrases(corpus)
+    model_w2v = Word2Vec.load("model/model_w2v.model")
+    #model_w2v = word2vec.Word2Vec(bigrams[corpus], size=100, min_count=1, iter=20)'''
 
-    model_w2v = Word2Vec.load("model_word2vec.model")
-    #model_w2v = word2vec.Word2Vec(bigrams[corpus], size=100, min_count=1, iter=20)
-
+    #model_w2v = Word2Vec.load("model/model_w2v.model")
     dict_topics = {}
     for i in range (len(new_topics_list)):
         dict_topics[i] = new_topics_list[i]
@@ -78,6 +80,7 @@ def recommendation_system(user_input):
     recommendations = recommended_episodes(recommended_clusters, df=df_complete)
 
     return recommendations
+    #return new_topics_list
 
 # function to return key for any value
 def get_key(val, dict_topics):
@@ -90,15 +93,20 @@ def get_key(val, dict_topics):
 def recommended_topic(user_input, list_of_topics, dict_topics, model):
     distances = {}
     for word in list_of_topics:
-        distances[get_key(word, dict_topics)] = model.wv.n_similarity(word, [user_input])
+        new_word = []
+        for value in word:
+            if value in list(model_w2v.wv.vocab):
+                new_word.append(value)
+            else: new_word = ['data']
+        distances[get_key(word, dict_topics)] = model_w2v.wv.n_similarity(new_word, [user_input])
     top_3 = sorted(distances, key=distances.get, reverse=True)[:3]
     max_key = max(distances, key=distances.get)
     return max_key, top_3
 
-def recommended_episodes(recommended_clusters):
+def recommended_episodes(recommended_clusters, df):
     information = []
     for cl in recommended_clusters:
-        information.append(df_complete[df_complete[‘cluster’] == cl][:2])
+        information.append(df[df['cluster'] == cl][:2])
     final_df = pd.concat(information)
     return final_df
 

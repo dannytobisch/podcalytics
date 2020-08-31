@@ -1,5 +1,5 @@
 import streamlit as st
-
+from modules import recommender
 # pylint: disable=line-too-long
 def write():
     """Used to write the page in the app.py file"""
@@ -8,7 +8,10 @@ def write():
         st.write()
         st.title('Dashboard')
 
-        user_input = st.text_input("Topic", 'data science')
+        user_input = st.text_input("Topic", 'data_science')
+
+
+        data = recommender.recommendation_system(user_input, 50)
 
         imgs = ['https://i.scdn.co/image/f149d28e02979195b0d2e649637b6ac44cd74109',
                  'https://i.scdn.co/image/e7afa3e3cc009d133446a237bf4446832332db6e',
@@ -57,16 +60,19 @@ def write():
                'https://open.spotify.com/show/3EEN9uPoV6PNqmKjoRDRXL',
                'https://open.spotify.com/show/6rnD1WdPdqlYiUdMUCEYli']
 
+        img_spotify = list(data['img'][0:5])
+        url_spotify = list(data['url'][0:5])
+
         st.components.v1.html(f'<div class="row">\
                   <div class="column">\
                   <a target="_blank" rel="noopener noreferrer"\
                   href="https://spotify.com"><img src="https://lh3.googleusercontent.com/UrY7BAZ-XfXGpfkeWg0zCCeo-7ras4DCoRalC_WXXWTK9q5b0Iw7B0YQMsVxZaNB7DM=s360-rw" width="100" height="100"\
                   style="vertical-align:middle;margin:3px 3px"></a>\
                   <a target="_blank" rel="noopener noreferrer"\
-                  href={url[1]}><img src={imgs[1]} width="100" height="100"\
+                  href={url_spotify[0]}><img src={img_spotify[0]} width="100" height="100"\
                   style="vertical-align:middle;margin:3px 3px;border-radius:10%""></a>\
                   <a target="_blank" rel="noopener noreferrer"\
-                   href={url[2]}><img src={imgs[2]} width="100" height="100"\
+                   href={url_spotify[1]}><img src={img_spotify[1]} width="100" height="100"\
                   style="vertical-align:middle;margin:3px 3px;padding-right:20px;border-radius:10%""></a>\
                   <a target="_blank" rel="noopener noreferrer"\
                     href="https://youtube.com"><img src="https://stagewp.sharethis.com/wp-content/uploads/2018/02/youtube.png" width="100" height="100"\
@@ -80,13 +86,13 @@ def write():
                   </div>\
                   <div class="column">\
                   <a target="_blank" rel="noopener noreferrer"\
-                   href={url[6]}><img src={imgs[6]} width="100" height="100"\
+                   href={url_spotify[2]}><img src={img_spotify[2]} width="100" height="100"\
                   style="vertical-align:middle;margin:3px 3px;border-radius:10%"></a>\
                   <a target="_blank" rel="noopener noreferrer"\
-                   href={url[0]}><img src={imgs[0]} width="100" height="100"\
+                   href={url_spotify[3]}><img src={img_spotify[3]} width="100" height="100"\
                   style="vertical-align:middle;margin:3px 3px;border-radius:10%"></a>\
                   <a target="_blank" rel="noopener noreferrer"\
-                   href={url[8]}><img src={imgs[8]} width="100" height="100"\
+                   href={url_spotify[4]}><img src={img_spotify[4]} width="100" height="100"\
                   style="vertical-align:middle;margin:3px 3px;padding-right:20px;border-radius:10%"></a>\
                   <a target="_blank" rel="noopener noreferrer"\
                    href={url[9]}><img src="https://i.ytimg.com/vi/4OZip0cgOho/default.jpg" width="100" height="100"\
