@@ -1,13 +1,13 @@
 '''Use of the recommendation system'''
 
 from modules.get_data import get_data_spotify
-from modules.preprocessing import preprocessing, preprocessed_data
+#from modules.preprocessing import preprocessing, preprocessed_data
 from modules.trainer import vectorization, kmeans, cluster_function, model
 import pandas as pd
 import gensim
 from gensim.models import phrases, word2vec
 from gensim.models import Word2Vec
-import nltk
+#import nltk
 
 model_w2v = Word2Vec.load("model/model_w2v.model")
 
