@@ -1,6 +1,6 @@
 '''Use of the recommendation system'''
 
-#from modules.get_data import get_data_spotify
+from modules.get_data import get_data_spotify
 from modules.preprocessing import preprocessing, preprocessed_data
 from modules.trainer import vectorization, kmeans, cluster_function, model
 import pandas as pd
