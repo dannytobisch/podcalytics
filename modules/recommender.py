@@ -52,7 +52,7 @@ def recommendation_system(user_input, n_cluster, data_preprocessed):
     # list all the topics
     topics = list(matching.values())
 
-    new_topics_list =[]
+    '''new_topics_list =[]
 
     for topic in topics:
         temp_list = []
@@ -61,7 +61,7 @@ def recommendation_system(user_input, n_cluster, data_preprocessed):
             temp_list.append(word.replace(" ", "_"))
 
     new_topics_list = pd.Series(new_topics_list)
-    '''#Corp_pre = data_preprocessed.complete_processed.append(new_topics_list)
+    #Corp_pre = data_preprocessed.complete_processed.append(new_topics_list)
     # create corpus for word2vec
     #corpus = Corp_pre.values
     # automatically find word connections (bigrams in corpus)
@@ -71,10 +71,10 @@ def recommendation_system(user_input, n_cluster, data_preprocessed):
 
     #model_w2v = Word2Vec.load("model/model_w2v.model")
     dict_topics = {}
-    for i in range (len(new_topics_list)):
-        dict_topics[i] = new_topics_list[i]
+    for i in range (len(topics)):
+        dict_topics[i] = topics[i]
 
-    recommended_clusters = recommended_topic(user_input, list_of_topics=new_topics_list, dict_topics=dict_topics, model=model_w2v)[1]
+    recommended_clusters = recommended_topic(user_input, list_of_topics=topics, dict_topics=dict_topics, model=model_w2v)[1]
 
     recommendations = recommended_episodes(recommended_clusters, df=df_complete)
 
@@ -87,7 +87,7 @@ def get_key(val, dict_topics):
          if val == value:
                 return key
 
-    return "key doesn't exist"
+    return 'key does not exist'
 
 def recommended_topic(user_input, list_of_topics, dict_topics, model):
 
@@ -97,7 +97,8 @@ def recommended_topic(user_input, list_of_topics, dict_topics, model):
         for value in word:
             if value in list(model_w2v.wv.vocab):
                 new_word.append(value)
-            else: new_word = ['data']
+            else:
+              new_word.append('data')
         distances[get_key(word, dict_topics)] = model_w2v.wv.n_similarity(new_word, user_input.lower().split())
     top_3 = sorted(distances, key=distances.get, reverse=True)[:3]
     max_key = max(distances, key=distances.get)
@@ -106,9 +107,24 @@ def recommended_topic(user_input, list_of_topics, dict_topics, model):
 def recommended_episodes(recommended_clusters, df):
     information = []
     for cl in recommended_clusters:
-        information.append(df[df['cluster'] == cl][:2])
+        temp = df[df['cluster'] == cl].sample(2)
+        information.append(temp)
     final_df = pd.concat(information)
     return final_df
 
+def recommendation_system_labeled(user_input, data_labeled):
 
+    # list all the topics
+    topics = list(data_labeled['topics'].unique())
+
+    dict_topics = {}
+    for i in range (len(topics)):
+        dict_topics[i] = topics[i]
+
+    recommended_clusters = recommended_topic(user_input, list_of_topics=topics, dict_topics=dict_topics, model=model_w2v)[1]
+
+    recommendations = recommended_episodes(recommended_clusters, df=data_labeled)
+
+    return recommendations
+    #return new_topics_list
 

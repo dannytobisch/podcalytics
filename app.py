@@ -25,22 +25,9 @@ def main():
     st.sidebar.title("Navigation")
     selection = st.sidebar.radio("Go to", list(PAGES.keys()))
 
-    st.sidebar.markdown('Your desired parametes:')
-
     category_selectbox = st.sidebar.selectbox(
     'Category',
     ('Data Science', 'Business', 'Mathematics', 'Politics')
-)
-
-    # Add a slider to the sidebar:
-    duration_slider = st.sidebar.slider(
-    'Select your desired duration range in minutes',
-    0.0, 100.0, (25.0, 75.0)
-)
-
-    date_slider = st.sidebar.slider(
-    'Select your desired timeframe',
-    2001, 2020, (2016, 2020)
 )
 
     page = PAGES[selection]
