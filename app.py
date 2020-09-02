@@ -23,7 +23,7 @@ def main():
 
     st.beta_set_page_config(
             page_title="Podcalytics", # => Quick reference - Streamlit
-            page_icon="🚀",
+            page_icon="🌊",
             layout="centered", # wide
             initial_sidebar_state="auto") # collapsed
 
