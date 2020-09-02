@@ -2,13 +2,21 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from pages.dashboard import get_data
-import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
 from gensim.models import Word2Vec
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from mpl_toolkits.mplot3d import Axes3D
+from wordcloud import WordCloud
+from PIL import Image
+import urllib
+import requests
+
+
+#audio_file = open('data/sound.mp3', 'rb')
+#audio_bytes = audio_file.read()
+
 
 # matplotlib.style.use('ggplot')
 model = Word2Vec.load("model/model_w2v.model")
@@ -17,34 +25,58 @@ data = get_data()
 spotify_data = data[0]
 spotify_data['date'] = pd.to_datetime(spotify_data['date'])
 
+def make_list(X):
+    return X.split(",")
+
+spotify_data['complete_processed'] = spotify_data['complete_processed'].apply(make_list)
+
+cluster_list = list(spotify_data['cluster'].value_counts().sample(n=3).index)
 
 # pylint: disable=line-too-long
 def write():
     """Used to write the page in the app.py file"""
-    with st.spinner("Loading Dashboard ..."):
+    #with st.spinner("Loading Dashboard ..."):
         #ast.shared.components.title_awesome("")
 
 
-        st.title('Spotify - Analytics')
+    st.title('Spotify - Analytics')
+        #st.audio(audio_bytes, format='audio/ogg')
+    st.text("")
+    if st.checkbox('Podcasts with more than ? episodes'):
+        option = st.slider('Select a modulus', 100, 200)
+        episodes_more_than_X(spotify_data, 'show_name', option)
+        st.pyplot()
+        st.text("")
+        st.write('''This graph displays the producer of podcasts with more than X amount of episodes. It provides an indication of the
+                    most active podcaster on spotify in their field.''')
 
-        if st.checkbox('Podcasts with more than 100 episodes'):
-            episodes_more_than_X(spotify_data, 'show_name', 100)
-            st.pyplot()
+    st.text("")
+    if st.checkbox('Trend over time'):
+        choose_year = st.selectbox('Select a to filter', ('The whole period', 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020))
+        plot_episodes_year(spotify_data, choose_year)
+        st.pyplot()
         st.text("")
-        if st.checkbox('Trend over time'):
-            plot_episodes_year(spotify_data, 'date')
-            st.pyplot()
+        st.write('''The graph displays the number of episodes since the beginning (2008 - today) or on a per month basis defined by the year.''')
+    st.text("")
+    if st.checkbox('Distribution of length'):
+        length_distribution(spotify_data, 'length(min)')
+        st.pyplot()
+    st.text("")
+    if st.checkbox('Most similar words in w2v'):
+        user_input = st.text_input("Topic (please enter up to two keywords)", 'Machine Learning')
+        user_input = user_input.lower().replace(" ", "_")
         st.text("")
-        if st.checkbox('Distribution of length'):
-            length_distribution(spotify_data, 'length(min)')
-            st.pyplot()
-        st.text("")
-        if st.checkbox('Most similar words in w2v'):
-            user_input = st.text_input("Topic (please enter up to two keywords)", 'Data Science')
-            user_input = user_input.lower().replace(" ", "_")
-            st.text("")
-            plot_similar_words(model, user_input, 10)
-            st.pyplot()
+        number_of_similar_words = st.slider('Select a modulus', 3, 50)
+        plot_similar_words(model, user_input, number_of_similar_words)
+        st.pyplot()
+    st.text("")
+    if st.checkbox('Word Cloud'):
+        cluster = st.slider('Select a cluster', 0, 49)
+        word_cloud_kmeans(cluster)
+        st.pyplot()
+
+'''------------------------------------------------------------------'''
+'''Functions to create the visualizations'''
 
 def episodes_more_than_X(data, column, number_of_episodes):
     '''Displays the number of episodes per podcaster'''
@@ -62,25 +94,28 @@ def episodes_more_than_X(data, column, number_of_episodes):
     sns.despine(bottom=True, left=True)
     return plt.show()
 
-# length distribution
+def plot_episodes_year(data, years):
+    '''plot the episodes since the beginning'''
+    if years == 'The whole period':
+        x = data['date'].dt.year
+    else:
+        per_year = data[data['date'].dt.year == years]
+        x = per_year['date'].dt.month
+    plt.figure(figsize=(20,20))
+    sns.countplot(x=x, data=data)
+    sns.despine(top=True, right=True, left=False, bottom=False)
+    return plt.show
+
 def length_distribution(data, column):
     plt.figure(figsize=(16,6))
 
-    sns.kdeplot(data[column], shade = True, color = 'limegreen', legend = True )
+    sns.kdeplot(data[column], shade = True, color = 'blue', legend = True )
 
     plt.title('Length of All "Data Science" Episodes', fontsize = 20)
     plt.xlabel('Length in Minutes', fontsize=16)
     plt.xticks(np.arange(0, 320, 10), size=10)
-    plt.ylabel('Density', fontsize=16)
     plt.grid(color='#4d4d4d')
     return plt.show()
-
-def plot_episodes_year(data, column):
-    '''plot the episodes since the beginning'''
-    x = data[column].dt.year
-    sns.countplot(x=x, data=data)
-    sns.despine(top=True, right=True, left=False, bottom=False)
-    return plt.show
 
 def plot_similar_words(model, user_input, topn):
     vocab = list(model.wv.vocab)
@@ -107,3 +142,17 @@ def plot_similar_words(model, user_input, topn):
 
     plt.title('w2v map - PCA')
     return plt.show()
+
+
+def word_cloud_kmeans(cluster):
+    tmp_cluster = []
+    text = spotify_data[spotify_data['cluster'] == cluster]['complete_processed']
+    text = list(text)
+    for word in text:
+        string_list = ' '.join(word)
+        tmp_cluster.append(string_list)
+    cluster_new = ' '.join(tmp_cluster)
+    wordcloud = WordCloud(background_color='white').generate(cluster_new)
+    plt.imshow(wordcloud, interpolation='bilinear')
+    plt.axis("off")
+    plt.show()

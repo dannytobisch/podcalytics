@@ -12,7 +12,7 @@ import pages.about
 
 PAGES = {
     "Dashboard": pages.dashboard,
-    "PodCalytics": pages.spotify ,
+    "Spotify Analytics": pages.spotify ,
     "arXiv Analytics": pages.arxiv ,
     "About": pages.about,
 }
