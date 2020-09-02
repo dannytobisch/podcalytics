@@ -38,7 +38,7 @@ def main():
     st.sidebar.title("About")
     st.sidebar.info(
             """
-            This app was made with ♥️ during batch #434 of the [Le Wagon](https://lewagon.com) Data Science bootcamp in Berlin 2020.
+            This app was made with ♥️ during batch #434 of the [Le Wagon](http://lewagon.com) Data Science bootcamp in Berlin 2020.
     """
 )
 

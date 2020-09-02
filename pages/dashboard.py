@@ -33,7 +33,7 @@ def write():
 
     st.markdown(page_bg_img, unsafe_allow_html=True)
 
-    st.title('Dashboard')
+    st.title('philoML - The key to knowledge')
 
     user_input = st.text_input("Topic (please enter up to two keywords)", 'Data Science')
 
