@@ -22,8 +22,9 @@ def write():
     #st.write()
     st.title('Dashboard')
 
+    user_input = st.text_input("Topic (please enter up to two keywords)", 'Data Science')
 
-    user_input = st.text_input("Topic (please enter up to three keywords)", 'Data Science')
+    #user_input = input.lower().replace(' ','_')
 
     data_spot = recommendation_system_labeled(user_input, data[0])
     data_yt = recommendation_system_labeled(user_input, data[1])

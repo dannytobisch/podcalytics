@@ -107,7 +107,7 @@ def recommended_topic(user_input, list_of_topics, dict_topics, model):
 def recommended_episodes(recommended_clusters, df):
     information = []
     for cl in recommended_clusters:
-        temp = df[df['cluster'] == cl].sample(2)
+        temp = df[df['cluster'] == cl][:2]
         information.append(temp)
     final_df = pd.concat(information)
     return final_df
