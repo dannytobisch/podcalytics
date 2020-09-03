@@ -53,43 +53,11 @@ def main():
 
     page = PAGES[selection]
 
-    if set(data_selectbox) == {'Spotify', 'YouTube', 'Medium', 'arXiv'}:
+    if len(data_selectbox) == 4:
         with st.spinner(f"Loading {selection} ..."):
             ast.shared.components.write_page(pages.dashboard)
 
-    if set(data_selectbox) == {'Spotify', 'YouTube'}:
-        with st.spinner(f"Loading {selection} ..."):
-            ast.shared.components.write_page(pages.dashboard2)
-
-    if set(data_selectbox) == {'arXiv', 'Medium'}:
-        with st.spinner(f"Loading {selection} ..."):
-            ast.shared.components.write_page(pages.dashboard3)
-
-    if set(data_selectbox) == {'Spotify', 'Medium'}:
-        with st.spinner(f"Loading {selection} ..."):
-            ast.shared.components.write_page(page)
-
-    if set(data_selectbox) == {'Spotify', 'arXiv'}:
-        with st.spinner(f"Loading {selection} ..."):
-            ast.shared.components.write_page(page)
-
-    if set(data_selectbox) == {'Youtube', 'Medium'}:
-        with st.spinner(f"Loading {selection} ..."):
-            ast.shared.components.write_page(page)
-
-    if set(data_selectbox) == {'Youtube', 'arXiv'}:
-        with st.spinner(f"Loading {selection} ..."):
-            ast.shared.components.write_page(page)
-
-    if len(data_selectbox) == 1:
-        with st.spinner(f"Loading {selection} ..."):
-            ast.shared.components.write_page(page)
-
-    if len(data_selectbox) == 3:
-        with st.spinner(f"Loading {selection} ..."):
-            ast.shared.components.write_page(page)
-
-    if data_selectbox == []:
+    if len(data_selectbox) != 4:
         with st.spinner(f"Loading {selection} ..."):
             ast.shared.components.write_page(page)
 
