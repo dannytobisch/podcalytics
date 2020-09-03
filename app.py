@@ -2,9 +2,6 @@ import streamlit as st
 import awesome_streamlit as ast
 
 import pages.dashboard
-import pages.dashboard_live
-import pages.dashboard2
-import pages.dashboard3
 import pages.spotify
 import pages.arxiv
 import pages.medium
@@ -41,6 +38,7 @@ def main():
     data_selectbox = st.sidebar.multiselect(
     'Data Source',
     ('Spotify', 'YouTube', 'Medium', 'arXiv'),
+    ('Spotify', 'YouTube', 'Medium', 'arXiv')
 
 )
 
