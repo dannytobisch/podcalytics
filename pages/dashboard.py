@@ -35,9 +35,9 @@ def write():
 
     st.title('philoML - The key to knowledge')
 
-    user_input1 = st.text_input("Topic (please enter up to two keywords)", 'Data Science', key = '1')
+    input1 = st.text_input("Topic (please enter up to two keywords)", 'Data Science')
 
-    #user_input = input.lower().replace(' ','_')
+    user_input1 = input1.lower().replace(' ','_')
 
     data_spot = recommendation_system_labeled(user_input1, data[0])
     data_yt = recommendation_system_labeled(user_input1, data[1])
