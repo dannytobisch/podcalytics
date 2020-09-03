@@ -9,9 +9,8 @@ from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from mpl_toolkits.mplot3d import Axes3D
 from wordcloud import WordCloud
-from PIL import Image
-import urllib
-import requests
+
+
 
 
 #audio_file = open('data/sound.mp3', 'rb')
