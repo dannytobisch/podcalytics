@@ -35,7 +35,7 @@ def write():
 
     st.title('philoML - The key to knowledge')
 
-    user_input2 = st.text_input("Topic (please enter up to two keywords)", 'Data Science')
+    user_input2 = st.text_input("Topic (please enter up to two keywords)", 'Data Science', key = '3')
 
     #user_input = input.lower().replace(' ','_')
 
