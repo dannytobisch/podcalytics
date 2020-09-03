@@ -32,7 +32,7 @@ def write():
     #with st.spinner("Loading Dashboard ..."):
         #ast.shared.components.title_awesome("")
 
-
+    st.title('arXiv - Analytics')
     st.text("")
     if st.checkbox('Most similar words in w2v'):
         user_input = st.text_input("Topic (please enter up to two keywords)", 'Machine Learning')

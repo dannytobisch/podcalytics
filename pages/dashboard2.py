@@ -35,14 +35,14 @@ def write():
 
     st.title('philoML - The key to knowledge')
 
-    user_input1 = st.text_input("Topic (please enter up to two keywords)", 'Data Science', key = 1)
+    user_input2 = st.text_input("Topic (please enter up to two keywords)", 'Data Science', key =3)
 
     #user_input = input.lower().replace(' ','_')
 
-    data_spot = recommendation_system_labeled(user_input1, data[0])
-    data_yt = recommendation_system_labeled(user_input1, data[1])
-    data_medium = recommendation_system_labeled(user_input1, data[2])
-    data_arxiv = recommendation_system_labeled(user_input1, data[3])
+    data_spot = recommendation_system_labeled(user_input2, data[0])
+    data_yt = recommendation_system_labeled(user_input2, data[1])
+    data_medium = recommendation_system_labeled(user_input2, data[2])
+    data_arxiv = recommendation_system_labeled(user_input2, data[3])
 
     img_spotify = list(data_spot['img'][0:5])
     url_spotify = list(data_spot['url'][0:5])
@@ -101,29 +101,6 @@ def write():
                           <a target="_blank" rel="noopener noreferrer"\
                            href={url_yt[4]}><img src={img_yt[4]} width="100" height="100"\
                           title="{title_yt[4]}" style="vertical-align:middle;margin:3px 3px;border-radius:10%"></a>\
-                          </div>\
-                          </div>', height=250)
-
-    st.components.v1.html(f'<div class="row">\
-                          <div class="column">\
-                          <a target="_blank" rel="noopener noreferrer"\
-                          href="https://medium.com"><img src="https://miro.medium.com/fit/c/256/256/1*6_fgYnisCa9V21mymySIvA.png" width="100" height="100"\
-                          style="vertical-align:middle;margin:3px 3px;border-radius:50%;"></a>\
-                          <a target="_blank" rel="noopener noreferrer"\
-                          href={url_medium[0]}><img src="https://miro.medium.com/fit/c/256/256/1*6_fgYnisCa9V21mymySIvA.png" width="100" height="100"\
-                          style="vertical-align:middle;margin:3px 3px;border-radius:10%"></a>\
-                          <a target="_blank" rel="noopener noreferrer"\
-                          href={url_medium[1]}><img src="https://miro.medium.com/fit/c/256/256/1*6_fgYnisCa9V21mymySIvA.png"  width="100" height="100"\
-                          title="test" style="vertical-align:middle;margin:3px 3px;padding-right:20px;border-radius:10%"></a>\
-                          <a target="_blank" rel="noopener noreferrer"\
-                           href="https://arxiv.org"><img src="https://pbs.twimg.com/profile_images/958432197987401728/QLeEVLC_.jpg" width="100" height="100"\
-                          style="vertical-align:middle;margin:3px 3px;border-radius:50%;padding-left:2px"></a>\
-                          <a target="_blank" rel="noopener noreferrer"\
-                           href={url_arxiv[0]}><img src="https://pbs.twimg.com/profile_images/958432197987401728/QLeEVLC_.jpg" width="100" height="100"\
-                          title="{title_arxiv[0]}"" style="vertical-align:middle;margin:3px 3px;border-radius:10%"></a>\
-                          <a target="_blank" rel="noopener noreferrer"\
-                           href={url_arxiv[1]}><img src="https://pbs.twimg.com/profile_images/958432197987401728/QLeEVLC_.jpg" width="100" height="100"\
-                          title="{title_arxiv[1]}"" style="vertical-align:middle;margin:3px 3px;border-radius:10%"></a>\
                           </div>\
                           </div>', height=250)
 
