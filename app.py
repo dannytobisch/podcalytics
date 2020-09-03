@@ -52,7 +52,7 @@ def main():
     page = PAGES[selection]
 
     with st.spinner(f"Loading {selection} ..."):
-        ast.shared.components.write_page(pages.dashboard)
+        ast.shared.components.write_page(page)
 
 
 
