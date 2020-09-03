@@ -14,7 +14,7 @@ import pages.about
 #ast.core.services.other.set_logging_format()
 
 PAGES = {
-    "philoML": pages.dashboard_live,
+    "philoML": pages.dashboard,
     "Spotify Analytics": pages.spotify ,
     "arXiv Analytics": pages.arxiv ,
     "About": pages.about,
@@ -53,13 +53,9 @@ def main():
 
     page = PAGES[selection]
 
-    if len(data_selectbox) == 4:
-        with st.spinner(f"Loading {selection} ..."):
-            ast.shared.components.write_page(pages.dashboard)
+    with st.spinner(f"Loading {selection} ..."):
+        ast.shared.components.write_page(pages.dashboard)
 
-    if len(data_selectbox) != 4:
-        with st.spinner(f"Loading {selection} ..."):
-            ast.shared.components.write_page(page)
 
 
 
